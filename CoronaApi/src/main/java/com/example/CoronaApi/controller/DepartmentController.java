@@ -3,7 +3,9 @@ package com.example.CoronaApi.controller;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.response.Department;
 import com.example.CoronaApi.model.GeneralResponse;
+import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.repository.DepartmentRepository;
+import com.example.CoronaApi.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class DepartmentController {
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    private PatientRepository patientRepository;
 
     @GetMapping("/")
     public Collection<Department> getAllDepartment() {
@@ -70,5 +74,16 @@ public class DepartmentController {
     public GeneralResponse deleteDepartment(@PathVariable("departmentId") String departmentId){
         return departmentRepository.deleteDepartment(departmentId);
     }
+    @GetMapping("/getPatients/{departmentId}")
+    public Collection<Patient> getDepartmentPatients(@PathVariable("departmentId") String departmentId) {
+        Collection<Patient> allDepartmentPatients = patientRepository.getDepartmentPatients(departmentId);
+        Collection<Patient> response = new ArrayList<>();
+        for (Patient patient : allDepartmentPatients) {
+            response.add(patient);
+            if (!patient.hasLink("self")) {
+                patient.add(linkTo(methodOn(PatientsController.class).getPatientById(patient.getPatientId())).withSelfRel());
+            }
 
+        }return response;
+    }
 }

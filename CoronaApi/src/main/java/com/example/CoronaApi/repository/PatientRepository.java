@@ -1,6 +1,7 @@
 package com.example.CoronaApi.repository;
 
 import com.example.CoronaApi.model.GeneralResponse;
+import com.example.CoronaApi.model.response.Department;
 import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.model.request.PatientRequest;
 import com.example.CoronaApi.utils.ObjectConverter;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class PatientRepository {
@@ -37,6 +35,16 @@ public class PatientRepository {
         generalResponse.setId(patientId);
         generalResponse.setResult("Success");
         return generalResponse;
+    }
+
+    public Collection<Patient> getDepartmentPatients(String DepartmentId){
+        Collection<Patient> filteredPatientMap = new ArrayList<>();
+        for (Patient patient: patientMap.values()){
+            if (Objects.equals(patient.getDepartmentId(), DepartmentId)){
+                filteredPatientMap.add(patient);
+            }
+        }
+        return filteredPatientMap;
     }
 
     public GeneralResponse addPatient(PatientRequest patient) {

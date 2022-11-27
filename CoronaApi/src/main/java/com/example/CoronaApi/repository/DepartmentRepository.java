@@ -3,6 +3,7 @@ package com.example.CoronaApi.repository;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.response.Department;
 import com.example.CoronaApi.model.GeneralResponse;
+import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.utils.ObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,13 @@ public class DepartmentRepository {
 
     @Autowired
     private ObjectConverter objectConverter;
-    public Department getDepartmentById(String patientId) {
-        return departmentMap.get(patientId);
+    public Department getDepartmentById(String departmentId) {
+        try {
+            return departmentMap.get(departmentId);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     public Collection<Department> getAllDepartment() {

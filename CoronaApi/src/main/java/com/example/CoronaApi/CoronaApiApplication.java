@@ -15,7 +15,6 @@ public class CoronaApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoronaApiApplication.class, args);
 	}
-
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
