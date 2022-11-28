@@ -1,27 +1,28 @@
-package com.example.CoronaApi.model.response;
+package com.example.CoronaApi;
 
-import org.springframework.hateoas.RepresentationModel;
 
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-public class Patient extends RepresentationModel<Patient>{
+@Table
+public class PatientCass {
 
+    @PrimaryKey
     private String patientId;
     private String created;
     private String patientName;
     private String modified;
-    private String symptoms;
     private String description;
+    private String symptoms;
     private String departmentId;
 
-    public Patient(String patientId, String created, String patientName, String modified, String symptoms, String description, String departmentId) {
+    public PatientCass(String patientId, String created, String patientName, String modified, String description,String symptoms,  String departmentId) {
         this.patientId = patientId;
         this.created = created;
         this.patientName = patientName;
         this.modified = modified;
-        this.symptoms = symptoms;
         this.description = description;
+        this.symptoms = symptoms;
         this.departmentId = departmentId;
     }
 
