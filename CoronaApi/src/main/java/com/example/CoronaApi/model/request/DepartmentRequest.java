@@ -4,6 +4,11 @@ public class DepartmentRequest {
     private String departmentId;
     private String departmentName;
 
+    public DepartmentRequest(String departmentId, String departmentName) {
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+    }
+
     public String getDepartmentId() {
         return departmentId;
     }

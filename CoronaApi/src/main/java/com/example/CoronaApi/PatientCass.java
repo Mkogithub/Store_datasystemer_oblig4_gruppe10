@@ -13,16 +13,16 @@ public class PatientCass {
     private String patientName;
     private String modified;
     private String description;
-    private String symptoms;
+    private String otherSymptoms;
     private String departmentId;
 
-    public PatientCass(String patientId, String created, String patientName, String modified, String description,String symptoms,  String departmentId) {
+    public PatientCass(String patientId, String created, String patientName, String modified, String description,String otherSymptoms,  String departmentId) {
         this.patientId = patientId;
         this.created = created;
         this.patientName = patientName;
         this.modified = modified;
         this.description = description;
-        this.symptoms = symptoms;
+        this.otherSymptoms = otherSymptoms;
         this.departmentId = departmentId;
     }
 
@@ -60,12 +60,12 @@ public class PatientCass {
         this.modified = modified;
     }
 
-    public String getSymptoms() {
-        return symptoms;
+    public String getOtherSymptoms() {
+        return otherSymptoms;
     }
 
-    public void setSymptoms(String symptoms) {
-        this.symptoms = symptoms;
+    public void setOtherSymptoms(String otherSymptoms) {
+        this.otherSymptoms = otherSymptoms;
     }
 
     public String getDescription() {

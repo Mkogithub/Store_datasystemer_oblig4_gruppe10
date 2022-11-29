@@ -6,6 +6,11 @@ public class Department extends RepresentationModel<Department> {
     private String departmentId;
     private String departmentName;
 
+    public Department(String departmentId, String departmentName){
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+    }
+
     public String getDepartmentId() {
         return departmentId;
     }

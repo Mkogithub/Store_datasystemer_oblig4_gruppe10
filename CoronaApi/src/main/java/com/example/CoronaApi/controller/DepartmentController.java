@@ -1,5 +1,6 @@
 package com.example.CoronaApi.controller;
 
+import com.example.CoronaApi.DepartmentRepositoryCass;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.response.Department;
 import com.example.CoronaApi.model.GeneralResponse;
@@ -22,6 +23,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class DepartmentController {
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    DepartmentRepositoryCass departmentRepositoryCass;
     @Autowired
     private PatientRepository patientRepository;
 

@@ -6,6 +6,9 @@ public class DoctorRequst {
     private String departmentId;
     private String doctorName;
 
+    public DoctorRequst(String doctorId, String departmentId, String doctorName) {
+    }
+
     public String getDoctorId() {
         return doctorId;
     }

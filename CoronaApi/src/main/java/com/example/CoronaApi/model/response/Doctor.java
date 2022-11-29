@@ -8,6 +8,9 @@ public class Doctor extends RepresentationModel<Doctor> {
     private String departmentId;
     private String doctorName;
 
+    public Doctor(String doctorId, String departmentId, String doctorName) {
+    }
+
     public String getDoctorId() {
         return doctorId;
     }
