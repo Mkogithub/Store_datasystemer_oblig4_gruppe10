@@ -10,6 +10,8 @@ Repository for Oblig 3, the earlier version of the project can be found here: ht
   - docker exec -it cassandra cqlsh
   #### (( Inside docker exec)
   - CREATE KEYSPACE spring_cassandra WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
+      
+      #### Cassandra will for demonstration purposes be set up with only one node, and a replication_factor of one
   
   #### build and run from Ide, or run in docker container(recommended) with command:
   - //todo
