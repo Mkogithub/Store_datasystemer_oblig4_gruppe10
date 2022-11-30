@@ -33,7 +33,7 @@ public class CoronaApiApplication {
 //		return new Docket(DocumentationType.SWAGGER_2).select()
 //				.apis(RequestHandlerSelectors.basePackage("com.example.CoronaApi")).build();
 //	}
-
+	//commandlinerunner for å initialisere, og legge inn eksempeldata
 	@Bean
 	public CommandLineRunner clr(PatientRepositoryCass patientRepositoryCass,
 								 DoctorRepositoryCass doctorRepositoryCass,
@@ -88,6 +88,7 @@ public class CoronaApiApplication {
 
 			symptomRepositoryCass.save(covidSymptomsCass1);
 			symptomRepositoryCass.save(covidSymptomsCass2);
+
 
 
 			patientRepositoryCass.findAll()

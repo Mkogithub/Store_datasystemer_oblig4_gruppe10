@@ -53,6 +53,7 @@ public class DepartmentController {
         return response;
     }
 
+
     @GetMapping("/{departmentId}/patients")
     public Collection<Patient> getPatientsByDeptId(@PathVariable("departmentId") String departmentId) {
         Iterable<PatientCass> allPatientsDept = patientRepositoryCass.findAllByDepartmentId(departmentId);
@@ -63,6 +64,7 @@ public class DepartmentController {
             patient1.add(linkTo(methodOn(DepartmentController.class).getPatientsByDeptId(patient1.getDepartmentId())).withSelfRel().withType("get"));
             //delete
             patient1.add(linkTo(methodOn(PatientsController.class).deletePatientById(patient1.getDepartmentId())).withRel("Delete").withType("delete"));
+
             //register symptoms
 //            patient1.add(linkTo(methodOn(SymptomController.class).addPatientSymptom()).withRel("addPatientSymptom").withType("Post"));
         }
@@ -88,7 +90,7 @@ public class DepartmentController {
         return response;
     }
 
-    @PostMapping("/addDepartment")
+    @PostMapping(value = "/addDepartment")
     public GeneralResponse addDepartment(@RequestBody DepartmentRequest department) {
         return departmentRepository.addDepartment(department);
     }

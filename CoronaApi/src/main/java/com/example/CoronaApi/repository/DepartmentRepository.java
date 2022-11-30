@@ -1,5 +1,7 @@
 package com.example.CoronaApi.repository;
 
+import com.example.CoronaApi.DepartmentCass;
+import com.example.CoronaApi.DepartmentRepositoryCass;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.response.DepartmentResponse;
 import com.example.CoronaApi.model.GeneralResponse;
@@ -36,7 +38,11 @@ public class DepartmentRepository {
         try {
             departmentId++;
             department.setDepartmentId("d" + departmentId);
+            String departmentId = department.getDepartmentId();
+            DepartmentCass departmentCass = objectConverter.from(objectConverter.toJson(department), DepartmentCass.class);
+
             departmentMap.put(department.getDepartmentId(), objectConverter.from(objectConverter.toJson(department), DepartmentResponse.class));
+
             generalResponse.setId("d" + departmentId);
             generalResponse.setResult("Success");
         } catch (Exception e) {
