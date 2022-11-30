@@ -1,2 +1,16 @@
-# Store_datasystemer_oblig3_gruppe10_maven
-Repository for Oblig 3 in the Uit Course Store datasystemer
+# Oblig 4 in the UiT course Store Datasystemer, for group 10
+
+
+Repository for Oblig 3, the earlier version of the project can be found here: https://github.com/Mkogithub/Store_datasystemer_oblig3_gruppe10_maven
+
+
+# Run configuation:
+## for the api to be able to run, the following docker commands must be run:
+  - docker run -d -p 9042:9042 --rm --name cassandra  cassandra:3.11
+  - docker exec -it cassandra cqlsh
+  ### (( Inside docker exec)
+  - CREATE KEYSPACE spring_cassandra WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
+  
+  ### build and run from Ide, or run in docker container with command:
+  - //todo
+  
