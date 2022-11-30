@@ -1,18 +1,22 @@
 package com.example.CoronaApi.controller;
 
+import com.example.CoronaApi.DepartmentCass;
 import com.example.CoronaApi.DepartmentRepositoryCass;
+import com.example.CoronaApi.PatientCass;
+import com.example.CoronaApi.PatientRepositoryCass;
 import com.example.CoronaApi.model.request.DepartmentRequest;
-import com.example.CoronaApi.model.response.Department;
+import com.example.CoronaApi.model.response.DepartmentResponse;
 import com.example.CoronaApi.model.GeneralResponse;
 import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.repository.DepartmentRepository;
 import com.example.CoronaApi.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -27,45 +31,61 @@ public class DepartmentController {
     DepartmentRepositoryCass departmentRepositoryCass;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private PatientRepositoryCass patientRepositoryCass;
 
     @GetMapping("/")
-    public Collection<Department> getAllDepartment() {
-        Collection<Department> allDepartment = departmentRepository.getAllDepartment();
-        Collection<Department> response = new ArrayList<>();
-        for (Department department: allDepartment){
-            if (!department.hasLink("self")){
-                department.add(linkTo(methodOn(DepartmentController.class).getDepartmentById(department.getDepartmentId())).withSelfRel().withType("get"));
-            }
-            if (!department.hasLink("Delete")){
-                department.add(linkTo(methodOn(DepartmentController.class).deleteDepartment(department.getDepartmentId())).withRel("Delete").withType("delete"));
-            }
-            if (!department.hasLink("all")){
-                department.add(linkTo(methodOn(DepartmentController.class).getAllDepartment()).withRel("all").withType("get"));
-            }
-            if (!department.hasLink("Patients")){
-                department.add(linkTo(methodOn(PatientsController.class).getPatientList()).withRel("patients").withType("get"));
-            }
-            response.add(department);
+    public Collection<DepartmentResponse> getAllDepartment() {
+        Iterable<DepartmentCass> allDepartment = departmentRepositoryCass.findAll();
+        Collection<DepartmentResponse> response = new ArrayList<>();
+        for (DepartmentCass department: allDepartment){
+            DepartmentResponse departmentResponse = new DepartmentResponse(department.getDepartmentId(), department.getDepartmentName());
+                //self
+                departmentResponse.add(linkTo(methodOn(DepartmentController.class).getDepartmentById(department.getDepartmentId())).withSelfRel().withType("get"));
+                //delete
+                departmentResponse.add(linkTo(methodOn(DepartmentController.class).deleteDepartment(department.getDepartmentId())).withRel("Delete").withType("delete"));
+                //getAll
+                departmentResponse.add(linkTo(methodOn(DepartmentController.class).getAllDepartment()).withRel("all").withType("get"));
+                //getPatients
+                departmentResponse.add(linkTo(methodOn(PatientsController.class).getPatientList()).withRel("patients").withType("get"));
+            response.add(departmentResponse);
         }
         return response;
     }
 
+    @GetMapping("/{departmentId}/patients")
+    public Collection<Patient> getPatientsByDeptId(@PathVariable("departmentId") String departmentId) {
+        Iterable<PatientCass> allPatientsDept = patientRepositoryCass.findAllByDepartmentId(departmentId);
+        Collection<Patient> response = new ArrayList<>();
+        for(PatientCass patient: allPatientsDept){
+            Patient patient1 = new Patient(patient.getPatientId(), patient.getCreated(), patient.getPatientName(), patient.getModified(), patient.getDescription(), patient.getModified(), patient.getOtherSymptoms());
+            //self
+            patient1.add(linkTo(methodOn(DepartmentController.class).getPatientsByDeptId(patient1.getDepartmentId())).withSelfRel().withType("get"));
+            //delete
+            patient1.add(linkTo(methodOn(PatientsController.class).deletePatientById(patient1.getDepartmentId())).withRel("Delete").withType("delete"));
+            //register symptoms
+//            patient1.add(linkTo(methodOn(SymptomController.class).addPatientSymptom()).withRel("addPatientSymptom").withType("Post"));
+        }
+        return response;
+    }
+
+
     @GetMapping("/{departmentId}")
-    public Department getDepartmentById(@PathVariable("departmentId") String departmentId) {
-        Department department = departmentRepository.getDepartmentById(departmentId);
-        if (!department.hasLink("self")){
-            department.add(linkTo(methodOn(DepartmentController.class).getDepartmentById(department.getDepartmentId())).withSelfRel().withType("get"));
+    public DepartmentResponse getDepartmentById(@PathVariable("departmentId") String departmentId) {
+        Iterable<DepartmentCass> oneDept = departmentRepositoryCass.findAllById(Collections.singleton(departmentId));
+        DepartmentResponse response = null;
+        if (departmentRepositoryCass.existsById(departmentId)){
+            for(DepartmentCass dept: oneDept){
+                DepartmentResponse departmentResponse1 = new DepartmentResponse(dept.getDepartmentId(), dept.getDepartmentName());
+                departmentResponse1.add(linkTo(methodOn(DepartmentController.class).getDepartmentById(departmentResponse1.getDepartmentId())).withSelfRel().withType("get"));
+                departmentResponse1.add(linkTo(methodOn(DepartmentController.class).deleteDepartment(departmentResponse1.getDepartmentId())).withRel("Delete").withType("delete"));
+                departmentResponse1.add(linkTo(methodOn(DepartmentController.class).getAllDepartment()).withRel("all").withType("get"));
+                departmentResponse1.add(linkTo(methodOn(DepartmentController.class).getPatientsByDeptId(departmentResponse1.getDepartmentId())).withRel("patients").withType("get"));
+                response = departmentResponse1;
+                departmentRepository.deleteDepartment(departmentResponse1.getDepartmentId());
+            }
         }
-        if (!department.hasLink("Delete")){
-            department.add(linkTo(methodOn(DepartmentController.class).deleteDepartment(department.getDepartmentId())).withRel("Delete").withType("delete"));
-        }
-        if (!department.hasLink("all")){
-            department.add(linkTo(methodOn(DepartmentController.class).getAllDepartment()).withRel("all").withType("get"));
-        }
-        if (!department.hasLink("Patients")){
-            department.add(linkTo(methodOn(PatientsController.class).getPatientList()).withRel("patients").withType("get"));
-        }
-        return department;
+        return response;
     }
 
     @PostMapping("/addDepartment")

@@ -1,9 +1,8 @@
 package com.example.CoronaApi.repository;
 
 import com.example.CoronaApi.model.request.DepartmentRequest;
-import com.example.CoronaApi.model.response.Department;
+import com.example.CoronaApi.model.response.DepartmentResponse;
 import com.example.CoronaApi.model.GeneralResponse;
-import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.utils.ObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,12 +13,12 @@ import java.util.Map;
 
 @Component
 public class DepartmentRepository {
-    private final static Map<String, Department> departmentMap = new HashMap<>();
+    private final static Map<String, DepartmentResponse> departmentMap = new HashMap<>();
     private int departmentId = 0;
 
     @Autowired
     private ObjectConverter objectConverter;
-    public Department getDepartmentById(String departmentId) {
+    public DepartmentResponse getDepartmentById(String departmentId) {
         try {
             return departmentMap.get(departmentId);
         } catch (Exception e) {
@@ -28,7 +27,7 @@ public class DepartmentRepository {
 
     }
 
-    public Collection<Department> getAllDepartment() {
+    public Collection<DepartmentResponse> getAllDepartment() {
         return departmentMap.values();
     }
 
@@ -37,7 +36,7 @@ public class DepartmentRepository {
         try {
             departmentId++;
             department.setDepartmentId("d" + departmentId);
-            departmentMap.put(department.getDepartmentId(), objectConverter.from(objectConverter.toJson(department), Department.class));
+            departmentMap.put(department.getDepartmentId(), objectConverter.from(objectConverter.toJson(department), DepartmentResponse.class));
             generalResponse.setId("d" + departmentId);
             generalResponse.setResult("Success");
         } catch (Exception e) {

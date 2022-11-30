@@ -1,8 +1,12 @@
 package com.example.CoronaApi;
 
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 import org.springframework.hateoas.RepresentationModel;
 
+@Table
 public class DepartmentCass{
+    @PrimaryKey
     private String departmentId;
     private String departmentName;
 

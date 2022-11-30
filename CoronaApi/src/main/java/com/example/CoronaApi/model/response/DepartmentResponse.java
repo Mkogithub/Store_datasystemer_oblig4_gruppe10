@@ -2,11 +2,11 @@ package com.example.CoronaApi.model.response;
 
 import org.springframework.hateoas.RepresentationModel;
 
-public class Department extends RepresentationModel<Department> {
+public class DepartmentResponse extends RepresentationModel<DepartmentResponse> {
     private String departmentId;
     private String departmentName;
 
-    public Department(String departmentId, String departmentName){
+    public DepartmentResponse(String departmentId, String departmentName){
         this.departmentId = departmentId;
         this.departmentName = departmentName;
     }

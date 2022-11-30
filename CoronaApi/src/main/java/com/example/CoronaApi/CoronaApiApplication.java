@@ -4,9 +4,6 @@ package com.example.CoronaApi;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.request.DoctorRequst;
 import com.example.CoronaApi.model.request.PatientRequest;
-import com.example.CoronaApi.model.response.Department;
-import com.example.CoronaApi.model.response.Doctor;
-import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.repository.DepartmentRepository;
 import com.example.CoronaApi.repository.DoctorRepository;
 import com.example.CoronaApi.repository.PatientRepository;
@@ -38,7 +35,13 @@ public class CoronaApiApplication {
 //	}
 
 	@Bean
-	public CommandLineRunner clr(PatientRepositoryCass patientRepositoryCass, PatientRepository patientRepository, DepartmentRepository departmentRepository, DoctorRepository doctorRepository) {
+	public CommandLineRunner clr(PatientRepositoryCass patientRepositoryCass,
+								 DoctorRepositoryCass doctorRepositoryCass,
+								 DepartmentRepositoryCass departmentRepositoryCass,
+								 SymptomRepositoryCass symptomRepositoryCass,
+								 PatientRepository patientRepository,
+								 DepartmentRepository departmentRepository,
+								 DoctorRepository doctorRepository) {
 		return args -> {
 			patientRepositoryCass.deleteAll();
 
@@ -61,6 +64,9 @@ public class CoronaApiApplication {
 			PatientRequest patient3 = new PatientRequest("p1", "27-11-2022", "John Deere", "27-11-2022", "Sore Throat", "Sore Throat", "d1");
 			PatientRequest patient4 = new PatientRequest("p2", "27-11-2022", "Jane Doe", "27-11-2022", "Sore Throat", "Sore Throat, bad breath", "d1");
 
+			CovidSymptomsCass covidSymptomsCass1 = new CovidSymptomsCass("1", "p1", "27-11-2022", true, false);
+			CovidSymptomsCass covidSymptomsCass2 = new CovidSymptomsCass("2", "p2", "27-11-2022", true, true);
+
 			patientRepository.addPatient(patient3);
 			patientRepository.addPatient(patient4);
 
@@ -74,6 +80,15 @@ public class CoronaApiApplication {
 
 			PatientCass savedPatient1 = patientRepositoryCass.save(patient1);
 			PatientCass savedPatient2 = patientRepositoryCass.save(patient2);
+			doctorRepositoryCass.save(doctor1);
+			doctorRepositoryCass.save(doctor2);
+
+			departmentRepositoryCass.save(dept1);
+			departmentRepositoryCass.save(dept2);
+
+			symptomRepositoryCass.save(covidSymptomsCass1);
+			symptomRepositoryCass.save(covidSymptomsCass2);
+
 
 			patientRepositoryCass.findAll()
 					.forEach(v -> log.info("Patient: {}", v.getPatientName()));

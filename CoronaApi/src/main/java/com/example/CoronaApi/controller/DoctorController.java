@@ -2,7 +2,6 @@ package com.example.CoronaApi.controller;
 
 import com.example.CoronaApi.model.GeneralResponse;
 import com.example.CoronaApi.model.request.DoctorRequst;
-import com.example.CoronaApi.model.response.Department;
 import com.example.CoronaApi.model.response.Doctor;
 import com.example.CoronaApi.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

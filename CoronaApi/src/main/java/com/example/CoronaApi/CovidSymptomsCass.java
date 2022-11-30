@@ -1,12 +1,26 @@
 package com.example.CoronaApi;
 
 
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
+
+@Table
 public class CovidSymptomsCass {
+    @PrimaryKey
     private String id;
     private String patientId;
     private String visitingDate;
     private Boolean coughing;
     private Boolean fever;
+
+    public CovidSymptomsCass(String id, String patientId, String visitingDate, boolean coughing, boolean fever){
+        this.id = id;
+        this.patientId = patientId;
+        this.visitingDate = visitingDate;
+        this.coughing = coughing;
+        this.fever = fever;
+    }
+
 
     public String getId() {
         return id;

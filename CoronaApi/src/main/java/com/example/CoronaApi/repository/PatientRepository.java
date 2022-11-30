@@ -1,7 +1,6 @@
 package com.example.CoronaApi.repository;
 
 import com.example.CoronaApi.model.GeneralResponse;
-import com.example.CoronaApi.model.response.Department;
 import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.model.request.PatientRequest;
 import com.example.CoronaApi.utils.ObjectConverter;

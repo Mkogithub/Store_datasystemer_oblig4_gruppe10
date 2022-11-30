@@ -39,8 +39,8 @@ public class SymptomController {
 
 
     @PostMapping("/addSymptoms")
-    public GeneralResponse addPatientSymptom(@RequestBody CovidSymptomsRequest symptoms) {
-        return symptomRepository.addPatientSymptom(symptoms);
+    public GeneralResponse addPatientSymptom(@RequestBody CovidSymptomsRequest covidSymptoms) {
+        return symptomRepository.addPatientSymptom(covidSymptoms);
     }
 
     @DeleteMapping("delete/{patientId}")
