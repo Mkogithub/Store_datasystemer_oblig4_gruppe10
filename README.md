@@ -16,4 +16,4 @@ Repository for Oblig 3, the earlier version of the project can be found here: ht
   #### build and run from Ide, or run in docker container(recommended) with command:
   - //todo
   
-  #### go to //repo_for_Oblig4_app, and follow instuctions in readme
+  docker run -d -p 8080:8080 --name oblig4 mko095/oblig4:latest
