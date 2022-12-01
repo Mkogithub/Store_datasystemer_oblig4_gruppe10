@@ -15,6 +15,8 @@ import java.util.Map;
 
 @Component
 public class DepartmentRepository {
+    @Autowired
+    public DepartmentRepositoryCass departmentRepositoryCass;
     private final static Map<String, DepartmentResponse> departmentMap = new HashMap<>();
     private int departmentId = 0;
 
@@ -36,15 +38,16 @@ public class DepartmentRepository {
     public GeneralResponse addDepartment(DepartmentRequest department) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
+
             departmentId++;
             department.setDepartmentId("d" + departmentId);
             String departmentId = department.getDepartmentId();
             DepartmentCass departmentCass = objectConverter.from(objectConverter.toJson(department), DepartmentCass.class);
 
-            departmentMap.put(department.getDepartmentId(), objectConverter.from(objectConverter.toJson(department), DepartmentResponse.class));
-
+            // departmentMap.put(department.getDepartmentId(), objectConverter.from(objectConverter.toJson(department), DepartmentResponse.class));
+            departmentRepositoryCass.save(departmentCass);
             generalResponse.setId("d" + departmentId);
-            generalResponse.setResult("Success");
+            generalResponse.setResult("Created");
         } catch (Exception e) {
             System.out.println("Failure " + e.getMessage());
             generalResponse.setId(String.valueOf(-1));
@@ -54,10 +57,10 @@ public class DepartmentRepository {
     }
 
     public GeneralResponse deleteDepartment(String departmentId) {
-        departmentMap.remove(departmentId);
+        departmentRepositoryCass.deleteById(departmentId);
         GeneralResponse generalResponse = new GeneralResponse();
         generalResponse.setId(departmentId);
-        generalResponse.setResult("Success");
+        generalResponse.setResult("Success, Deleted");
         return generalResponse;    }
 
 }

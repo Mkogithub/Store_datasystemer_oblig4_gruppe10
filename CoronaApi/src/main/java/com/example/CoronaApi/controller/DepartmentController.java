@@ -84,7 +84,6 @@ public class DepartmentController {
                 departmentResponse1.add(linkTo(methodOn(DepartmentController.class).getAllDepartment()).withRel("all").withType("get"));
                 departmentResponse1.add(linkTo(methodOn(DepartmentController.class).getPatientsByDeptId(departmentResponse1.getDepartmentId())).withRel("patients").withType("get"));
                 response = departmentResponse1;
-                departmentRepository.deleteDepartment(departmentResponse1.getDepartmentId());
             }
         }
         return response;

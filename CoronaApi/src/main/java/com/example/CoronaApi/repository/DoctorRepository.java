@@ -1,5 +1,6 @@
 package com.example.CoronaApi.repository;
 
+import com.example.CoronaApi.DoctorRepositoryCass;
 import com.example.CoronaApi.model.request.DoctorRequst;
 import com.example.CoronaApi.model.response.Doctor;
 import com.example.CoronaApi.model.GeneralResponse;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @Component
 public class DoctorRepository {
+    DoctorRepositoryCass doctorRepositoryCass;
     private final static Map<String, Doctor> doctorMap = new HashMap<>();
     private int doctorId = 0;
 
@@ -28,7 +30,7 @@ public class DoctorRepository {
     }
 
     public GeneralResponse deleteDoctorById(String doctorId) {
-        doctorMap.remove(doctorId);
+        doctorRepositoryCass.deleteById(doctorId);
         GeneralResponse generalResponse = new GeneralResponse();
         generalResponse.setId(doctorId);
         generalResponse.setResult("Success");
