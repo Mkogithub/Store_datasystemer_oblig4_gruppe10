@@ -13,10 +13,7 @@ import com.example.CoronaApi.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -36,9 +33,9 @@ public class DepartmentController {
 
     @GetMapping("/")
     public Collection<DepartmentResponse> getAllDepartment() {
-        Iterable<DepartmentCass> allDepartment = departmentRepositoryCass.findAll();
+        List<DepartmentResponse> allDepartment = departmentRepository.getAllDepartment();
         Collection<DepartmentResponse> response = new ArrayList<>();
-        for (DepartmentCass department: allDepartment){
+        for (DepartmentResponse department: allDepartment){
             DepartmentResponse departmentResponse = new DepartmentResponse(department.getDepartmentId(), department.getDepartmentName());
                 //self
                 departmentResponse.add(linkTo(methodOn(DepartmentController.class).getDepartmentById(department.getDepartmentId())).withSelfRel().withType("get"));
@@ -56,7 +53,7 @@ public class DepartmentController {
 
     @GetMapping("/{departmentId}/patients")
     public Collection<Patient> getPatientsByDeptId(@PathVariable("departmentId") String departmentId) {
-        Iterable<PatientCass> allPatientsDept = patientRepositoryCass.findAllByDepartmentId(departmentId);
+        Iterable<PatientCass> allPatientsDept = patientRepositoryCass.findAllByDepartmentId(departmentId); //rewrite this so that it returns a list of patients using patientRepository
         Collection<Patient> response = new ArrayList<>();
         for(PatientCass patient: allPatientsDept){
             Patient patient1 = new Patient(patient.getPatientId(), patient.getCreated(), patient.getPatientName(), patient.getModified(), patient.getDescription(), patient.getModified(), patient.getOtherSymptoms());
