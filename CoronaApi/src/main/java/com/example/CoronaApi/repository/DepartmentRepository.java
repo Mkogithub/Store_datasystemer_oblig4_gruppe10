@@ -9,44 +9,39 @@ import com.example.CoronaApi.utils.ObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DepartmentRepository {
+
     @Autowired
     public DepartmentRepositoryCass departmentRepositoryCass;
-    private final static Map<String, DepartmentResponse> departmentMap = new HashMap<>();
-    private int departmentId = 0;
 
     @Autowired
     private ObjectConverter objectConverter;
-    public DepartmentResponse getDepartmentById(String departmentId) {
-        try {
-            return departmentMap.get(departmentId);
-        } catch (Exception e) {
-            return null;
-        }
 
+    public DepartmentResponse getDepartmentById(String departmentId) {
+        Optional<DepartmentCass> departmentCass = departmentRepositoryCass.findById(departmentId);
+        return departmentCass.map(d -> objectConverter.from(objectConverter.toJson(d), DepartmentResponse.class)).orElse(null);
     }
 
-    public Collection<DepartmentResponse> getAllDepartment() {
-        return departmentMap.values();
+    public List<DepartmentResponse> getAllDepartment() {
+        List<DepartmentResponse> departmentResponses = new ArrayList<>();
+        Iterable<DepartmentCass> departmentCasses = departmentRepositoryCass.findAll();
+        departmentCasses.forEach(d -> departmentResponses.add(objectConverter.from(objectConverter.toJson(d), DepartmentResponse.class)));
+        return departmentResponses;
     }
 
     public GeneralResponse addDepartment(DepartmentRequest department) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
-
-            departmentId++;
-            department.setDepartmentId("d" + departmentId);
-            String departmentId = department.getDepartmentId();
-            DepartmentCass departmentCass = objectConverter.from(objectConverter.toJson(department), DepartmentCass.class);
-
-            // departmentMap.put(department.getDepartmentId(), objectConverter.from(objectConverter.toJson(department), DepartmentResponse.class));
+            DepartmentCass departmentCass = new DepartmentCass(); //might be a problem
+            departmentCass.setDepartmentId("d" + departmentRepositoryCass.count());
+            departmentCass.setDepartmentName(department.getDepartmentName());
             departmentRepositoryCass.save(departmentCass);
-            generalResponse.setId("d" + departmentId);
+            generalResponse.setId(departmentCass.getDepartmentId());
             generalResponse.setResult("Created");
         } catch (Exception e) {
             System.out.println("Failure " + e.getMessage());
@@ -61,6 +56,6 @@ public class DepartmentRepository {
         GeneralResponse generalResponse = new GeneralResponse();
         generalResponse.setId(departmentId);
         generalResponse.setResult("Success, Deleted");
-        return generalResponse;    }
-
+        return generalResponse;
+    }
 }

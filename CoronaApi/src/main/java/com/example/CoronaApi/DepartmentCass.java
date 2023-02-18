@@ -15,6 +15,11 @@ public class DepartmentCass{
         this.departmentName = departmentName;
     }
 
+    public DepartmentCass() {
+        String departmentId;
+        String departmentName;
+    }
+
     public String getDepartmentId() {
         return departmentId;
     }
