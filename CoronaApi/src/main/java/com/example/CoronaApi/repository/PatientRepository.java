@@ -1,63 +1,47 @@
 package com.example.CoronaApi.repository;
 
+import com.example.CoronaApi.Cassandra.dataClasses.PatientCass;
+import com.example.CoronaApi.Cassandra.repositories.PatientRepositoryCass;
 import com.example.CoronaApi.model.GeneralResponse;
-import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.model.request.PatientRequest;
+import com.example.CoronaApi.model.response.DepartmentResponse;
+import com.example.CoronaApi.model.response.Patient;
 import com.example.CoronaApi.utils.ObjectConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PatientRepository {
 
-    private final static Map<String, Patient> patientMap = new HashMap<>();
-    private int patientId = 0;
+    @Autowired
+    private PatientRepositoryCass patientRepositoryCass;
 
     @Autowired
     private ObjectConverter objectConverter;
 
-    public Collection<Patient> getPatientList() {
-        return patientMap.values();
+    public List<Patient> getAllPatients() {
+        List<Patient> patientResponse = new ArrayList<>();
+        Iterable<PatientCass> patientCasses = patientRepositoryCass.findAll();
+        patientCasses.forEach(d -> patientResponse.add(objectConverter.from(objectConverter.toJson(d), Patient.class)));
+        return patientResponse;
     }
 
     public Patient getPatientById(String patientId) {
-        return patientMap.get(patientId);
+        Optional<PatientCass> patientCass = patientRepositoryCass.findById(patientId);
+        return patientCass.map(d -> objectConverter.from(objectConverter.toJson(d), Patient.class)).orElse(null);
     }
-
 
     public GeneralResponse deletePatientById(String patientId) {
-        patientMap.remove(patientId);
-        GeneralResponse generalResponse = new GeneralResponse();
-        generalResponse.setId(patientId);
-        generalResponse.setResult("Success");
-        return generalResponse;
-    }
-
-    public Collection<Patient> getDepartmentPatients(String DepartmentId){
-        Collection<Patient> filteredPatientMap = new ArrayList<>();
-        for (Patient patient: patientMap.values()){
-            if (Objects.equals(patient.getDepartmentId(), DepartmentId)){
-                filteredPatientMap.add(patient);
-            }
-        }
-        return filteredPatientMap;
-    }
-
-    public GeneralResponse addPatient(PatientRequest patient) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
-            patientId++;
-            patient.setPatientId("p" + patientId);
-            patient.setCreated(LocalDateTime.now().toString());
-            patient.setDepartmentId(patient.getDepartmentId());
-            patient.setPatientName(patient.getPatientName());
-            patient.setDescription(patient.getDescription());
-            patient.setModified(LocalDateTime.now().toString());
-            patientMap.put("p" + patientId, objectConverter.from(objectConverter.toJson(patient), Patient.class));
-            generalResponse.setId("p" + patientId);
+            patientRepositoryCass.deleteById(patientId);
+            generalResponse.setId(patientId);
             generalResponse.setResult("Success");
         } catch (Exception e) {
             System.out.println("Failure " + e.getMessage());
@@ -67,12 +51,46 @@ public class PatientRepository {
         return generalResponse;
     }
 
-    public GeneralResponse updatePatient(PatientRequest patient) {
+    public Collection<PatientCass> getDepartmentPatients(String DepartmentId) {
+        return (Collection<PatientCass>) patientRepositoryCass.findAllByDepartmentId(DepartmentId);
+    }
+
+    public GeneralResponse addPatient(PatientRequest patientRequest) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
-            patientMap.replace(patient.getPatientId(), objectConverter.from(objectConverter.toJson(patient), Patient.class));
-            generalResponse.setId(patient.getPatientId());
+            PatientCass patient = new PatientCass();
+            patient.setPatientName(patientRequest.getPatientName());
+            patient.setDescription(patientRequest.getDescription());
+            patient.setDepartmentId(patientRequest.getDepartmentId());
+            patient.setCreated(LocalDateTime.now().toString());
+            patient.setModified(LocalDateTime.now().toString());
+            PatientCass savedPatient = patientRepositoryCass.save(patient);
+            generalResponse.setId(savedPatient.getPatientId());
             generalResponse.setResult("Success");
+        } catch (Exception e) {
+            System.out.println("Failure " + e.getMessage());
+            generalResponse.setId(String.valueOf(-1));
+            generalResponse.setResult("Failure");
+        }
+        return generalResponse;
+    }
+
+    public GeneralResponse updatePatient(PatientRequest patientRequest) {
+        GeneralResponse generalResponse = new GeneralResponse();
+        try {
+            PatientCass patient = patientRepositoryCass.findById(patientRequest.getPatientId()).orElse(null);
+            if (patient != null) {
+                patient.setPatientName(patientRequest.getPatientName());
+                patient.setDescription(patientRequest.getDescription());
+                patient.setDepartmentId(patientRequest.getDepartmentId());
+                patient.setModified(LocalDateTime.now().toString());
+                PatientCass savedPatient = patientRepositoryCass.save(patient);
+                generalResponse.setId(savedPatient.getPatientId());
+                generalResponse.setResult("Success");
+            } else {
+                generalResponse.setId(String.valueOf(-1));
+                generalResponse.setResult("Patient not found");
+            }
         } catch (Exception e) {
             System.out.println("Failure " + e.getMessage());
             generalResponse.setId(String.valueOf(-1));

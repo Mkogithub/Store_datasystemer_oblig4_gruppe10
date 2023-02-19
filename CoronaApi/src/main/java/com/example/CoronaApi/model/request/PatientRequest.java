@@ -75,4 +75,5 @@ public class PatientRequest {
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
     }
+
 }

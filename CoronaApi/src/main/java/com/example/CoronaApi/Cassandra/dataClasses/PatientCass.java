@@ -26,6 +26,9 @@ public class PatientCass {
         this.departmentId = departmentId;
     }
 
+    public PatientCass() {
+
+    }
 
 
     public String getPatientId() {

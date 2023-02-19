@@ -20,7 +20,7 @@ public class SymptomRepository {
     private ObjectConverter objectConverter;
     private int covidSymptomsId = 0;
 
-    public CovidSymptoms getSymptomPatientById(String patientId) {
+    public CovidSymptoms getSymptomByPatientId(String patientId) {
         return covidSymptomsMap.get(patientId);
     }
 

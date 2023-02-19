@@ -22,7 +22,7 @@ public class PatientsController {
 
     @GetMapping("/")
     public Collection<Patient> getPatientList(){
-        Collection<Patient> allPatient = patientRepository.getPatientList();
+        Collection<Patient> allPatient = patientRepository.getAllPatients();
         Collection<Patient> response = new ArrayList<>();
         for (Patient patient: allPatient){
             response.add(patient);

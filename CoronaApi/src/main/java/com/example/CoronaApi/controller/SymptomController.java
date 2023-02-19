@@ -32,7 +32,7 @@ public class SymptomController {
 
     @GetMapping("/{patientId}")
     public CovidSymptoms getCovidSymptomsById(@PathVariable("patientId") String patientId) {
-        CovidSymptoms covidSymptoms = symptomRepository.getSymptomPatientById(patientId);
+        CovidSymptoms covidSymptoms = symptomRepository.getSymptomByPatientId(patientId);
         covidSymptoms.add(linkTo(methodOn(SymptomController.class).getCovidSymptomsById(patientId)).withSelfRel());
         return covidSymptoms;
     }

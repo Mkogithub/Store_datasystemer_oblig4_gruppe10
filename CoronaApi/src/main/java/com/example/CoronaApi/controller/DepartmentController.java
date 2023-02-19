@@ -53,7 +53,7 @@ public class DepartmentController {
 
     @GetMapping("/{departmentId}/patients")
     public Collection<Patient> getPatientsByDeptId(@PathVariable("departmentId") String departmentId) {
-        Iterable<PatientCass> allPatientsDept = patientRepositoryCass.findAllByDepartmentId(departmentId); //rewrite this so that it returns a list of patients using patientRepository
+        Collection<PatientCass> allPatientsDept = patientRepository.getDepartmentPatients(departmentId); //rewrite this so that it returns a list of patients using patientRepository
         Collection<Patient> response = new ArrayList<>();
         for(PatientCass patient: allPatientsDept){
             Patient patient1 = new Patient(patient.getPatientId(), patient.getCreated(), patient.getPatientName(), patient.getModified(), patient.getDescription(), patient.getModified(), patient.getOtherSymptoms());
@@ -62,7 +62,7 @@ public class DepartmentController {
             //delete
             patient1.add(linkTo(methodOn(PatientsController.class).deletePatientById(patient1.getDepartmentId())).withRel("Delete").withType("delete"));
 
-            //register symptoms
+//            register symptoms
 //            patient1.add(linkTo(methodOn(SymptomController.class).addPatientSymptom()).withRel("addPatientSymptom").withType("Post"));
         }
         return response;
@@ -96,15 +96,12 @@ public class DepartmentController {
         return departmentRepository.deleteDepartment(departmentId);
     }
     @GetMapping("/getPatients/{departmentId}")
-    public Collection<Patient> getDepartmentPatients(@PathVariable("departmentId") String departmentId) {
-        Collection<Patient> allDepartmentPatients = patientRepository.getDepartmentPatients(departmentId);
-        Collection<Patient> response = new ArrayList<>();
-        for (Patient patient : allDepartmentPatients) {
-            response.add(patient);
-            if (!patient.hasLink("self")) {
-                patient.add(linkTo(methodOn(PatientsController.class).getPatientById(patient.getPatientId())).withSelfRel());
-            }
-
-        }return response;
-    }
-}
+    public GeneralResponse getDepartmentPatients(@PathVariable("departmentId") String departmentId) {
+//        Collection<PatientCass> allDepartmentPatients = patientRepository.getDepartmentPatients(departmentId);
+//        Collection<Patient> response = new ArrayList<>();
+//        for (PatientCass patient : allDepartmentPatients) {
+//            response.add(patient);
+//
+//        }return response;
+        return (GeneralResponse) patientRepository.getDepartmentPatients(departmentId);
+}}
