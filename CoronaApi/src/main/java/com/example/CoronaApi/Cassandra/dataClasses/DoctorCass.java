@@ -1,4 +1,4 @@
-package com.example.CoronaApi;
+package com.example.CoronaApi.Cassandra.dataClasses;
 
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
@@ -16,6 +16,10 @@ public class DoctorCass {
         this.doctorId=doctorId;
         this.departmentId=departmentId;
         this.doctorName=doctorName;
+    }
+
+    public DoctorCass() {
+
     }
 
     public String getDoctorId() {

@@ -1,12 +1,9 @@
 package com.example.CoronaApi.controller;
 
-import com.example.CoronaApi.DepartmentCass;
-import com.example.CoronaApi.DepartmentRepositoryCass;
-import com.example.CoronaApi.DoctorCass;
-import com.example.CoronaApi.DoctorRepositoryCass;
+import com.example.CoronaApi.Cassandra.dataClasses.DoctorCass;
+import com.example.CoronaApi.Cassandra.repositories.DoctorRepositoryCass;
 import com.example.CoronaApi.model.GeneralResponse;
 import com.example.CoronaApi.model.request.DoctorRequst;
-import com.example.CoronaApi.model.response.DepartmentResponse;
 import com.example.CoronaApi.model.response.Doctor;
 import com.example.CoronaApi.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;

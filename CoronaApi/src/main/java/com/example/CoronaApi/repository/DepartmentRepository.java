@@ -1,7 +1,7 @@
 package com.example.CoronaApi.repository;
 
-import com.example.CoronaApi.DepartmentCass;
-import com.example.CoronaApi.DepartmentRepositoryCass;
+import com.example.CoronaApi.Cassandra.dataClasses.DepartmentCass;
+import com.example.CoronaApi.Cassandra.repositories.DepartmentRepositoryCass;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.response.DepartmentResponse;
 import com.example.CoronaApi.model.GeneralResponse;

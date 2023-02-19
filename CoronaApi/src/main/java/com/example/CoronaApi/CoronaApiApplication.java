@@ -1,6 +1,14 @@
 package com.example.CoronaApi;
 
 
+import com.example.CoronaApi.Cassandra.dataClasses.CovidSymptomsCass;
+import com.example.CoronaApi.Cassandra.dataClasses.DepartmentCass;
+import com.example.CoronaApi.Cassandra.dataClasses.DoctorCass;
+import com.example.CoronaApi.Cassandra.dataClasses.PatientCass;
+import com.example.CoronaApi.Cassandra.repositories.DepartmentRepositoryCass;
+import com.example.CoronaApi.Cassandra.repositories.DoctorRepositoryCass;
+import com.example.CoronaApi.Cassandra.repositories.PatientRepositoryCass;
+import com.example.CoronaApi.Cassandra.repositories.SymptomRepositoryCass;
 import com.example.CoronaApi.model.request.DepartmentRequest;
 import com.example.CoronaApi.model.request.DoctorRequst;
 import com.example.CoronaApi.model.request.PatientRequest;
@@ -78,23 +86,23 @@ public class CoronaApiApplication {
 
 
 
-			PatientCass savedPatient1 = patientRepositoryCass.save(patient1);
-			PatientCass savedPatient2 = patientRepositoryCass.save(patient2);
-			doctorRepositoryCass.save(doctor1);
-			doctorRepositoryCass.save(doctor2);
-
-			departmentRepositoryCass.save(dept1);
-			departmentRepositoryCass.save(dept2);
-
-			symptomRepositoryCass.save(covidSymptomsCass1);
-			symptomRepositoryCass.save(covidSymptomsCass2);
+//			PatientCass savedPatient1 = patientRepositoryCass.save(patient1);
+//			PatientCass savedPatient2 = patientRepositoryCass.save(patient2);
+//			doctorRepositoryCass.save(doctor1);
+//			doctorRepositoryCass.save(doctor2);
+//
+//			departmentRepositoryCass.save(dept1);
+//			departmentRepositoryCass.save(dept2);
+//
+//			symptomRepositoryCass.save(covidSymptomsCass1);
+//			symptomRepositoryCass.save(covidSymptomsCass2);
 
 
 
 			patientRepositoryCass.findAll()
 					.forEach(v -> log.info("Patient: {}", v.getPatientName()));
-
-			patientRepositoryCass.findById(savedPatient1.getPatientId())
+//
+			patientRepositoryCass.findById(patient1.getPatientId())
 					.ifPresent(v -> log.info("Patient by id: {}", v.getPatientName()));
 
 		};

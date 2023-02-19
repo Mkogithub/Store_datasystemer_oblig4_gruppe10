@@ -1,6 +1,7 @@
 package com.example.CoronaApi.repository;
 
-import com.example.CoronaApi.DoctorRepositoryCass;
+import com.example.CoronaApi.Cassandra.dataClasses.DoctorCass;
+import com.example.CoronaApi.Cassandra.repositories.DoctorRepositoryCass;
 import com.example.CoronaApi.model.request.DoctorRequst;
 import com.example.CoronaApi.model.response.Doctor;
 import com.example.CoronaApi.model.GeneralResponse;
@@ -9,24 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DoctorRepository {
     DoctorRepositoryCass doctorRepositoryCass;
-    private final static Map<String, Doctor> doctorMap = new HashMap<>();
-    private int doctorId = 0;
 
     @Autowired
     private ObjectConverter objectConverter;
 
     public Collection<Doctor> getDoctorList() {
-        return doctorMap.values();
+        List<DoctorCass> doctorCasses = (List<DoctorCass>) doctorRepositoryCass.findAll();
+        return doctorCasses.stream()
+                .map(doctorCass -> objectConverter.from(objectConverter.toJson(doctorCass), Doctor.class))
+                .collect(Collectors.toList());
     }
 
     public Doctor getDoctorById(String doctorId) {
-        return doctorMap.get(doctorId);
+        DoctorCass doctorCass = doctorRepositoryCass.findById(doctorId).orElse(null);
+        return doctorCass != null ? objectConverter.from(objectConverter.toJson(doctorCass), Doctor.class) : null;
     }
 
     public GeneralResponse deleteDoctorById(String doctorId) {
@@ -41,10 +44,12 @@ public class DoctorRepository {
     public GeneralResponse addDoctor(DoctorRequst doctor) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
-            doctorId++;
-            doctor.setDoctorId("dc"+doctorId);
-            doctorMap.put("dc"+doctorId, objectConverter.from(objectConverter.toJson(doctor), Doctor.class));
-            generalResponse.setId("dc"+doctorId);
+            DoctorCass doctorCass = new DoctorCass();
+            doctorCass.setDoctorId("dc" + System.currentTimeMillis());
+            doctorCass.setDepartmentId(doctor.getDepartmentId());
+            doctorCass.setDoctorName(doctor.getDoctorName());
+            doctorRepositoryCass.save(doctorCass);
+            generalResponse.setId(doctorCass.getDoctorId());
             generalResponse.setResult("Success");
         } catch (Exception e) {
             System.out.println("Failure " + e.getMessage());
@@ -53,11 +58,16 @@ public class DoctorRepository {
         }
         return generalResponse;
     }
+
     public GeneralResponse updateDoctor(DoctorRequst doctor) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
-            doctorMap.replace(doctor.getDoctorId(), objectConverter.from(objectConverter.toJson(doctor), Doctor.class));
-            generalResponse.setId(doctor.getDoctorId());
+            DoctorCass doctorCass = new DoctorCass();
+            doctorCass.setDoctorId(doctor.getDoctorId());
+            doctorCass.setDepartmentId(doctor.getDepartmentId());
+            doctorCass.setDoctorName(doctor.getDoctorName());
+            doctorRepositoryCass.save(doctorCass);
+            generalResponse.setId(doctorCass.getDoctorId());
             generalResponse.setResult("Success");
         } catch (Exception e) {
             System.out.println("Failure " + e.getMessage());
