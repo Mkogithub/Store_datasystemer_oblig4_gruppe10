@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class DoctorRepository {
-    DoctorRepositoryCass doctorRepositoryCass;
+
+    @Autowired
+    public DoctorRepositoryCass doctorRepositoryCass;
 
     @Autowired
     private ObjectConverter objectConverter;

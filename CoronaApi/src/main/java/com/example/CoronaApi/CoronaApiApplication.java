@@ -21,14 +21,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-//import springfox.documentation.builders.RequestHandlerSelectors;
-//import springfox.documentation.spi.DocumentationType;
-//import springfox.documentation.spring.web.plugins.Docket;
-//import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 
 
 @SpringBootApplication
-//@EnableSwagger2
+@EnableSwagger2
 public class CoronaApiApplication {
 
 	private final static Logger log = LoggerFactory.getLogger(CoronaApiApplication.class);
@@ -36,11 +37,11 @@ public class CoronaApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoronaApiApplication.class, args);
 	}
-//	@Bean
-//	public Docket api() {
-//		return new Docket(DocumentationType.SWAGGER_2).select()
-//				.apis(RequestHandlerSelectors.basePackage("com.example.CoronaApi")).build();
-//	}
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.example.CoronaApi")).build();
+	}
 	//commandlinerunner for å initialisere, og legge inn eksempeldata
 	@Bean
 	public CommandLineRunner clr(PatientRepositoryCass patientRepositoryCass,
@@ -74,11 +75,13 @@ public class CoronaApiApplication {
 			CovidSymptomsCass covidSymptomsCass1 = new CovidSymptomsCass("1", "p1", "27-11-2022", true, false);
 			CovidSymptomsCass covidSymptomsCass2 = new CovidSymptomsCass("2", "p2", "27-11-2022", true, true);
 
-			patientRepository.addPatient(patient3);
-			patientRepository.addPatient(patient4);
+
 
 			departmentRepository.addDepartment(dept3);
 			departmentRepository.addDepartment(dept4);
+
+			patientRepository.addPatient(patient3);
+			patientRepository.addPatient(patient4);
 
 			doctorRepository.addDoctor(doctor3);
 			doctorRepository.addDoctor(doctor4);

@@ -25,9 +25,9 @@ public class DoctorController {
 
     @GetMapping("/")
     public Collection<Doctor> getDoctorList() {
-        Iterable<DoctorCass> allDepartment = doctorRepositoryCass.findAll();
+        Iterable<Doctor> allDepartment = doctorRepository.getDoctorList();
         Collection<Doctor> response = new ArrayList<>();
-        for (DoctorCass doctorCass: allDepartment){
+        for (Doctor doctorCass: allDepartment){
             Doctor doctor = new Doctor(doctorCass.getDoctorId(), doctorCass.getDepartmentId(), doctorCass.getDoctorName());
             //self
             doctor.add(linkTo(methodOn(DoctorController.class).getDoctorList()).withSelfRel().withType("get"));

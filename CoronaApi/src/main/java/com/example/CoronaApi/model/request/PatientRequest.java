@@ -2,12 +2,12 @@ package com.example.CoronaApi.model.request;
 
 public class PatientRequest {
 
-    public PatientRequest(String patientId, String created, String patientName, String modified, String symptoms, String description, String departmentId) {
+    public PatientRequest(String patientId, String created, String patientName, String modified, String description,String otherSymptoms,  String departmentId) {
         this.patientId = patientId;
         this.created = created;
         this.patientName = patientName;
         this.modified = modified;
-        this.symptoms = symptoms;
+        this.otherSymptoms = otherSymptoms;
         this.description = description;
         this.departmentId = departmentId;
     }
@@ -16,7 +16,7 @@ public class PatientRequest {
     private String created;
     private String patientName;
     private String modified;
-    private String symptoms;
+    private String otherSymptoms;
     private String description;
     private String departmentId;
 
@@ -52,12 +52,12 @@ public class PatientRequest {
         this.modified = modified;
     }
 
-    public String getSymptoms() {
-        return symptoms;
+    public String getOtherSymptoms() {
+        return otherSymptoms;
     }
 
-    public void setSymptoms(String symptoms) {
-        this.symptoms = symptoms;
+    public void setOtherSymptoms(String symptoms) {
+        this.otherSymptoms = symptoms;
     }
 
     public String getDescription() {

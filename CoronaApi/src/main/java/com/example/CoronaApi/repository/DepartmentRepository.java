@@ -37,7 +37,7 @@ public class DepartmentRepository {
     public GeneralResponse addDepartment(DepartmentRequest department) {
         GeneralResponse generalResponse = new GeneralResponse();
         try {
-            DepartmentCass departmentCass = new DepartmentCass(); //might be a problem
+            DepartmentCass departmentCass = new DepartmentCass();
             departmentCass.setDepartmentId("d" + departmentRepositoryCass.count());
             departmentCass.setDepartmentName(department.getDepartmentName());
             departmentRepositoryCass.save(departmentCass);
