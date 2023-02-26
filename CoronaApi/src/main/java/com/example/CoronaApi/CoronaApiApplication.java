@@ -88,20 +88,7 @@ public class CoronaApiApplication {
 
 
 
-//			PatientCass savedPatient1 = patientRepositoryCass.save(patient1);
-//			PatientCass savedPatient2 = patientRepositoryCass.save(patient2);
-//			doctorRepositoryCass.save(doctor1);
-//			doctorRepositoryCass.save(doctor2);
-//
-//			departmentRepositoryCass.save(dept1);
-//			departmentRepositoryCass.save(dept2);
-//
-//			symptomRepositoryCass.save(covidSymptomsCass1);
-//			symptomRepositoryCass.save(covidSymptomsCass2);
-
-
-
-			patientRepositoryCass.findAll()
+			patientRepository.getAllPatients()
 					.forEach(v -> log.info("Patient: {}", v.getPatientName()));
 //
 			patientRepositoryCass.findById(patient1.getPatientId())
