@@ -22,6 +22,13 @@ public class AuditEvent {
     @Column("username")
     private String username;
 
+    public AuditEvent(UUID randomUUID, LocalDateTime now, String operation, String currentUsername) {
+        this.id = randomUUID;
+        this.timestamp = now;
+        this. operation = operation;
+        this.username = currentUsername;
+    }
+
 
     public LocalDateTime getTimestamp() {
         return timestamp;
