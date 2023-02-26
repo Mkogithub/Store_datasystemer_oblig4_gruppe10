@@ -44,9 +44,6 @@ public class CoronaApiApplication {
 	//commandlinerunner for å initialisere, og legge inn eksempeldata
 	@Bean
 	public CommandLineRunner clr(PatientRepositoryCass patientRepositoryCass,
-								 DoctorRepositoryCass doctorRepositoryCass,
-								 DepartmentRepositoryCass departmentRepositoryCass,
-								 SymptomRepositoryCass symptomRepositoryCass,
 								 PatientRepository patientRepository,
 								 DepartmentRepository departmentRepository,
 								 DoctorRepository doctorRepository) {
