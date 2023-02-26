@@ -68,7 +68,6 @@ public class CoronaApiApplication {
 
 			PatientCass patient1 = new PatientCass("p1", "27-11-2022", "John Deere", "27-11-2022", "Sore Throat", "Sore Throat", "d1");
 			PatientCass patient2 = new PatientCass("p2", "27-11-2022", "Jane Doe", "27-11-2022", "Sore Throat", "Sore Throat, bad breath", "d1");
-
 			PatientRequest patient3 = new PatientRequest("p1", "27-11-2022", "John Deere", "27-11-2022", "Sore Throat", "Sore Throat", "d1");
 			PatientRequest patient4 = new PatientRequest("p2", "27-11-2022", "Jane Doe", "27-11-2022", "Sore Throat", "Sore Throat, bad breath", "d1");
 
