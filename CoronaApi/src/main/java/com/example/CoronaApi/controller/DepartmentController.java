@@ -53,10 +53,10 @@ public class DepartmentController {
 
     @GetMapping("/{departmentId}/patients")
     public Collection<Patient> getPatientsByDeptId(@PathVariable("departmentId") String departmentId) {
-        Collection<PatientCass> allPatientsDept = patientRepository.getDepartmentPatients(departmentId); //rewrite this so that it returns a list of patients using patientRepository
+        Collection<Patient> allPatientsDept = patientRepository.getDepartmentPatients(departmentId);
         Collection<Patient> response = new ArrayList<>();
-        for(PatientCass patient: allPatientsDept){
-            Patient patient1 = new Patient(patient.getPatientId(), patient.getCreated(), patient.getPatientName(), patient.getModified(), patient.getDescription(), patient.getModified(), patient.getOtherSymptoms());
+        for(Patient patient: allPatientsDept){
+            Patient patient1 = new Patient(patient.getPatientId(), patient.getCreated(), patient.getPatientName(), patient.getModified(), patient.getDescription(), patient.getModified(), patient.getSymptoms());
             //self
             patient1.add(linkTo(methodOn(DepartmentController.class).getPatientsByDeptId(patient1.getDepartmentId())).withSelfRel().withType("get"));
             //delete
@@ -95,13 +95,5 @@ public class DepartmentController {
     public GeneralResponse deleteDepartment(@PathVariable("departmentId") String departmentId){
         return departmentRepository.deleteDepartment(departmentId);
     }
-    @GetMapping("/getPatients/{departmentId}")
-    public GeneralResponse getDepartmentPatients(@PathVariable("departmentId") String departmentId) {
-//        Collection<PatientCass> allDepartmentPatients = patientRepository.getDepartmentPatients(departmentId);
-//        Collection<Patient> response = new ArrayList<>();
-//        for (PatientCass patient : allDepartmentPatients) {
-//            response.add(patient);
-//
-//        }return response;
-        return (GeneralResponse) patientRepository.getDepartmentPatients(departmentId);
-}}
+
+}

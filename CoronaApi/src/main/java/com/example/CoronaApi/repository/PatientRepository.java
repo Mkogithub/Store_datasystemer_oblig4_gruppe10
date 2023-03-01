@@ -51,8 +51,11 @@ public class PatientRepository {
         return generalResponse;
     }
 
-    public Collection<PatientCass> getDepartmentPatients(String DepartmentId) {
-        return (Collection<PatientCass>) patientRepositoryCass.findAllByDepartmentId(DepartmentId);
+    public Collection<Patient> getDepartmentPatients(String DepartmentId) {
+        List<Patient> patientResponse = new ArrayList<>();
+        Iterable<PatientCass> patientCasses = patientRepositoryCass.findAll();
+        patientCasses.forEach(d -> patientResponse.add(objectConverter.from(objectConverter.toJson(d), Patient.class)));
+        return patientResponse;
     }
 
     public GeneralResponse addPatient(PatientRequest patientRequest) {
