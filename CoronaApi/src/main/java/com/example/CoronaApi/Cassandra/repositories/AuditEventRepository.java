@@ -1,4 +1,4 @@
-package com.example.CoronaApi.repository;
+package com.example.CoronaApi.Cassandra.repositories;
 
 import com.example.CoronaApi.Cassandra.dataClasses.AuditEvent;
 import org.springframework.data.cassandra.repository.CassandraRepository;

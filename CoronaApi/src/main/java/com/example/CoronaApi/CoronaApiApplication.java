@@ -1,10 +1,7 @@
 package com.example.CoronaApi;
 
 
-import com.example.CoronaApi.Cassandra.dataClasses.CovidSymptomsCass;
-import com.example.CoronaApi.Cassandra.dataClasses.DepartmentCass;
-import com.example.CoronaApi.Cassandra.dataClasses.DoctorCass;
-import com.example.CoronaApi.Cassandra.dataClasses.PatientCass;
+import com.example.CoronaApi.Cassandra.dataClasses.*;
 import com.example.CoronaApi.Cassandra.repositories.DepartmentRepositoryCass;
 import com.example.CoronaApi.Cassandra.repositories.DoctorRepositoryCass;
 import com.example.CoronaApi.Cassandra.repositories.PatientRepositoryCass;
@@ -22,10 +19,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.authentication.AuthenticationManager;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.UUID;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -36,6 +36,7 @@ public class CoronaApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoronaApiApplication.class, args);
 	}
+
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
@@ -70,6 +71,20 @@ public class CoronaApiApplication {
 
 			CovidSymptomsCass covidSymptomsCass1 = new CovidSymptomsCass("1", "p1", "27-11-2022", true, false);
 			CovidSymptomsCass covidSymptomsCass2 = new CovidSymptomsCass("2", "p2", "27-11-2022", true, true);
+
+			UserCass admin1 = new UserCass();
+			admin1.setUserId(UUID.randomUUID());
+			admin1.setUsername("gmail@gmail.com");
+			admin1.setName("Halgeir Halvorsen");
+			admin1.setPassword("rallarRonny");
+			admin1.setRole("ADMIN");
+
+			UserCass user1 = new UserCass();
+			admin1.setUserId(UUID.randomUUID());
+			admin1.setUsername("gmail@gmail.com");
+			admin1.setName("Halgeir Halvorsen");
+			admin1.setPassword("rallarRonny");
+			admin1.setRole("USER");
 
 
 
