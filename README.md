@@ -1,7 +1,8 @@
 # Oblig 4 in the UiT course Store Datasystemer, for group 10
 
 
-Repository for Oblig 3, the earlier version of the project can be found here: https://github.com/Mkogithub/Store_datasystemer_oblig3_gruppe10_maven
+Repository for Oblig 3, the earlier version of the project can be found here: https://github.com/Mkogithub/Store_datasystemer_oblig3_gruppe10_maven.
+this is where the current version of the app is.
 
 
 # Run Instructions:
@@ -13,7 +14,4 @@ Repository for Oblig 3, the earlier version of the project can be found here: ht
       
       #### Cassandra will for demonstration purposes be set up with only one node, and a replication_factor of one
   
-  #### build and run from Ide, or run in docker container(recommended) with command:
-  - //todo
-  
-  docker run -d -p 8080:8080 --name oblig4 mko095/oblig4:latest
+  #### build and run from Ide.
